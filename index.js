@@ -1,4 +1,5 @@
 const fastify = require('fastify')({
+  trustProxy: true,
   logger: true
 })
 const mongoose = require('mongoose')
@@ -48,12 +49,8 @@ fastify.get('/', { websocket: true }, function wsHandler (conn, req) {
   })
 })
 
-function build() {
-  const fastify = Fastify({ trustProxy: true })
-  return fastify
-}
-
-async function start() {
+// Run the server!
+const start = async () => {
   // Google Cloud Run will set this environment variable for you, so
   // you can also use it to detect if you are running in Cloud Run
   const IS_GOOGLE_CLOUD_RUN = process.env.K_SERVICE !== undefined
@@ -65,16 +62,13 @@ async function start() {
   const address = IS_GOOGLE_CLOUD_RUN ? "0.0.0.0" : undefined
 
   try {
-    const server = build()
-    const address = await server.listen(port, address)
-    console.log(`Listening on ${address}`)
+    const listeningAddress = await fastify.listen(port, address)
+    console.log(`Listening on ${listeningAddress}`)
   } catch (err) {
     console.error(err)
     process.exit(1)
   }
 }
-
-module.exports = build
 
 if (require.main === module) {
   start()
