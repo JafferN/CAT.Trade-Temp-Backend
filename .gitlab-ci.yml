@@ -1,0 +1,59 @@
+image: docker:git
+
+services:
+  - docker:dind
+
+stages:
+  - buil
+  - push
+  - deploy
+
+build:
+  stage: build
+  before_script:
+    # $CI_JOB_TOKEN is variable automatically added by Gitlab
+    - echo $CI_JOB_TOKEN | docker login -u gitlab-ci-token registry.gitlab.com --password-stdin
+  script:
+    - docker pull $GITLAB_IMAGE || true # Allows us to use --cache-from
+    - docker build --cache-from $GITLAB_IMAGE -t $GITLAB_IMAGE:$CI_COMMIT_SHA .
+    - docker push $GITLAB_IMAGE:$CI_COMMIT_SHA
+
+test:
+  image: node:latest
+  stage: build
+  script:
+    - npm install --progress=false
+
+push:
+  stage: push
+  only:
+    - production
+    - staging
+  environment:
+    name: $CI_COMMIT_BRANCH
+  before_script:
+    # Login to Gitlab registry
+    - echo $CI_JOB_TOKEN | docker login -u gitlab-ci-token registry.gitlab.com --password-stdin
+    # Login to Google Cloud Registry
+    - docker login -u _json_key --password-stdin https://asia.gcr.io < $GOOGLE_CLOUD_ACCOUNT
+  script:
+    - docker pull $GITLAB_IMAGE:$CI_COMMIT_SHA
+    - docker tag $GITLAB_IMAGE:$CI_COMMIT_SHA $GCR_IMAGE:latest
+    - docker push $GCR_IMAGE
+
+deploy:
+  stage: deploy
+  only:
+    - production
+    - staging
+  environment:
+    name: $CI_COMMIT_BRANCH
+  image: google/cloud-sdk:latest
+  script:
+    # Login to Google Cloud
+    - gcloud auth activate-service-account --key-file $GOOGLE_CLOUD_ACCOUNT
+    # Deploy to Google Cloud
+    - gcloud run deploy temp-backend --platform managed --region asia-southeast1 --project $GCR_PROJECT --image $GCR_IMAGE
+        --set-env-vars=MONGO_DB_URL=$MONGO_DB_URL
+    # Set traffic to latest version
+    - gcloud run services update-traffic temp-backend --to-latest --platform managed --region asia-southeast1 --project $GCR_PROJECT

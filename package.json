@@ -1,0 +1,30 @@
+{
+  "name": "cat.trade-temp-backend",
+  "version": "1.0.0",
+  "description": "Temporary additional backend for CAT.Trade.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "./node_modules/nodemon/bin/nodemon.js ./src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JafferN/CAT.Trade-Temp-Backend.git"
+  },
+  "author": "Jaffer N",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JafferN/CAT.Trade-Temp-Backend/issues"
+  },
+  "homepage": "https://github.com/JafferN/CAT.Trade-Temp-Backend#readme",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "boom": "^7.3.0",
+    "fastify": "^3.11.0",
+    "fastify-cors": "^5.2.0",
+    "fastify-websocket": "^3.0.0",
+    "mongoose": "^5.11.13",
+    "node-cache": "^5.1.2",
+    "nodemon": "^2.0.7"
+  }
+}
