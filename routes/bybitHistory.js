@@ -4,7 +4,7 @@ const bybitHistoryController = require('../controllers/bybitHistoryController')
 const routes = [
   {
     method: 'GET',
-    url: '/api/bybit_history',
+    url: '/bybit_history',
     handler: bybitHistoryController.getHistory
   }
 ]

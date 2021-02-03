@@ -5,22 +5,22 @@ const signalController = require('../controllers/signalController')
 const routes = [
   {
     method: 'GET',
-    url: '/api/users/:id',
+    url: '/users/:id',
     handler: userController.getSingleUser
   },
   {
     method: 'GET',
-    url: '/api/users/:id/signals',
+    url: '/users/:id/signals',
     handler: signalController.getUserSignals
   },
   {
     method: 'POST',
-    url: '/api/users',
+    url: '/users',
     handler: userController.addUser
   },
   {
     method: 'PUT',
-    url: '/api/users/:id',
+    url: '/users/:id',
     handler: userController.updateUser
   },
 ]

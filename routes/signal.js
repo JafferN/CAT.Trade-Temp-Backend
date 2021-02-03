@@ -4,12 +4,12 @@ const signalController = require('../controllers/signalController')
 const routes = [
   {
     method: 'GET',
-    url: '/api/signals',
+    url: '/signals',
     handler: signalController.getSignals
   },
   {
     method: 'POST',
-    url: '/api/signals',
+    url: '/signals',
     handler: signalController.addSignal
   }
 ]
