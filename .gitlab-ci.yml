@@ -18,12 +18,6 @@ build:
     - docker build --cache-from $GITLAB_IMAGE -t $GITLAB_IMAGE:$CI_COMMIT_SHA .
     - docker push $GITLAB_IMAGE:$CI_COMMIT_SHA
 
-test:
-  image: node:latest
-  stage: build
-  script:
-    - npm install --progress=false
-
 push:
   stage: push
   only:
