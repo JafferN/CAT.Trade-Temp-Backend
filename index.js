@@ -33,7 +33,7 @@ routes.forEach((route, _index) => {
   fastify.route(route)
 })
 
-fastify.get('/ws', { websocket: true }, function wsHandler (conn, req) {
+fastify.get('/', { websocket: true }, function wsHandler (conn, req) {
   conn.socket.on('message', async (msg) => {
     try {
       data = JSON.parse(msg)
