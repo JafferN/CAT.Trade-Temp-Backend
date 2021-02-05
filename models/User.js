@@ -1,10 +1,30 @@
 const mongoose = require('mongoose')
 
 const userSchema = new mongoose.Schema({
-  userId: Number,
-  group: String,
-  signalAccessLevel: Number,
-  expertiseLevel: Number
+  userId: {
+    type: Number,
+    required: true
+  },
+  group: {
+    type: String,
+    default: null
+  },
+  signalAccessLevel: {
+    type: Number,
+    default: null
+  },
+  expertiseLevel: {
+    type: Number,
+    default: null
+  },
+  sendSignals: {
+    type: Boolean,
+    default: false
+  },
+  discordWebhookUrl: {
+    type: String,
+    default: null
+  }
 })
 
 module.exports = mongoose.model('User', userSchema)

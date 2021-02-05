@@ -1,5 +1,6 @@
 // External Dependancies
 const boom = require('boom')
+const axios = require('axios')
 
 // Get Data Models
 const Signal = require('../models/Signal')
@@ -33,8 +34,25 @@ exports.getSignals = async (req, reply) => {
 // Add a new signal
 exports.addSignal = async (req, reply) => {
   try {
-  const signal = new Signal(req.body)
+    const signal = new Signal(req.body)
     await sendSignalWs(signal)
+    if (signal.discordWebhookUrl) {
+      axios.post(signal.discordWebhookUrl, {
+        embeds: [
+          {
+            url: signal.url,
+            title: signal.title,
+            description: signal.description || 'No description',
+            color: signal.colour || 44287,
+            footer: {
+              text: signal.group
+            }
+          }
+        ],
+        username: 'CAT.Trade Signal',
+        avatar_url: 'https://cdn.discordapp.com/attachments/212265914031144960/780759182499643432/cat-logo.png'
+      })
+    }
     return signal.save()
   } catch (err) {
     throw boom.boomify(err)

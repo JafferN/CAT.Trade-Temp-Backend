@@ -1,8 +1,14 @@
 const mongoose = require('mongoose')
 
 const copyCatSchema = new mongoose.Schema({
-  copyCatId: Number,
-  group: String
+  copyCatId: {
+    type: Number,
+    required: true
+  },
+  group: {
+    type: String,
+    default: null
+  }
 })
 
 module.exports = mongoose.model('CopyCat', copyCatSchema)
