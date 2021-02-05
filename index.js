@@ -18,6 +18,7 @@ mongoose.connect(process.env.MONGO_DB_URL)
 // Register plugins
 fastify
   .register(require('fastify-websocket'))
+  .register(require('fastify-healthcheck'))
   .register(require('fastify-cors'), { origin: (origin, cb) => {
     if (!origin || /localhost|ngrok\.io|cat\.trade|pscatbot\.com/.test(origin)){
       //  Request from localhost will pass
