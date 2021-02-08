@@ -5,17 +5,17 @@ const NodeCache = require('node-cache')
 
 const cache = new NodeCache()
 
-const minutes = {
-  1: 1,
-  3: 3,
-  5: 5, 
-  15: 15,
-  30: 30,
-  60: 60,
-  120: 120,
-  240: 240,
-  D: 1440,
-  W: 10080 
+const seconds = {
+  1: 60,
+  3: 80,
+  5: 300, 
+  15: 900,
+  30: 1800,
+  60: 3600,
+  120: 7200,
+  240: 14400,
+  D: 86400,
+  W: 604800 
 }
 
 function callEndpoint(endpoint, data) {
@@ -28,7 +28,7 @@ function callEndpoint(endpoint, data) {
 
     axios.get(url)
     .then(response => {
-      cache.set(url, response.data, minutes[data.interval] * 60)
+      cache.set(url, response.data, seconds[data.interval])
       resolve(response.data)
     })
     .catch(error => {
@@ -43,8 +43,8 @@ exports.getHistory = async (req, reply) => {
     const symbol = req.query.symbol
     const interval = req.query.interval
     let from = req.query.from
-    if (from + minutes[interval] * 12000 < 1569888000) {
-      reply.send({ ret_code: -1 })
+    if (parseInt(from) + seconds[interval] * 200 < 1569888000) {
+      return reply.send({ ret_code: -1 })
     } else if (from < 1569888000) {
       from = 1569888000
     }
