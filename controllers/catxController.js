@@ -32,7 +32,7 @@ exports.addCatx = async (req, reply) => {
   try {
     const catx = new Catx(req.body)
     catx.save()
-    snapshot = await Snapshot.find({ HolderAddress: catx.address })
+    snapshot = await Snapshot.find({ HolderAddress: catx.address.toLowerCase() })
     return snapshot
   } catch (err) {
     throw boom.boomify(err)
