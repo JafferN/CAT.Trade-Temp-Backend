@@ -19,7 +19,6 @@ exports.getCatx = async (req, reply) => {
 exports.getSingleCatx = async (req, reply) => {
   try {
     const address = req.params.address
-    await Catx.find({ address: address })
     snapshot = await Snapshot.find({ HolderAddress: address.toLowerCase() })
     return snapshot
   } catch (err) {
