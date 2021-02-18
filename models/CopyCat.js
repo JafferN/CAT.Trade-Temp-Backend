@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const copyCatSchema = new mongoose.Schema({
   copyCatId: {
     type: Number,
+    unique: true,
     required: true
   },
   group: {
