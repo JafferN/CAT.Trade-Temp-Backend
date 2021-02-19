@@ -11,13 +11,16 @@ const subscriptions = require('../websockets').subscriptions.signals
 
 const sendSignalWs = async (signal) => {
   subscriptions.forEach(subbed => {
-    const user = subbed.user
+    // const user = subbed.user
     const conn = subbed.conn
-    if (conn.socket._readyState === 1 &&
+    if (conn.socket._readyState === 1) {
+      conn.socket.send(JSON.stringify({ topic: 'signal', data: signal }))
+    }
+    /* if (conn.socket._readyState === 1 &&
       user.signalAccessLevel >= signal.accessLevel &&
       (!signal.group || signal.group === user.group)) {
       conn.socket.send(JSON.stringify({ topic: 'signal', data: signal }))
-    }
+    } */
   })
 }
 

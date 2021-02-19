@@ -5,7 +5,16 @@ const subscriptions = {
 exports.subscriptions = subscriptions
 
 exports.addSubscription = (topic, user, conn) => {
-  if (!user.length) {
+  const data = {
+    conn: conn
+  }
+  if (data in subscriptions[topic]) {
+    conn.socket.send(JSON.stringify({ ret: -1, msg: 'Already subscribed' }))
+  } else {
+    subscriptions[topic].push(data)
+    conn.socket.send(JSON.stringify({ ret: 0, msg: 'Subscribed' }))
+  }
+  /* if (!user.length) {
     conn.socket.send(JSON.stringify({ ret: -1, msg: 'Invalid userId' }))
   }
   else if (topic in subscriptions) {
@@ -22,7 +31,7 @@ exports.addSubscription = (topic, user, conn) => {
   }
   else {
     conn.socket.send(JSON.stringify({ ret: -1, msg: 'Subscription does not exist' }))
-  }
+  } */
 }
 
 exports.removeSubscription = (topic, conn) => {
