@@ -68,7 +68,8 @@ exports.getUserSignals = async (req, reply) => {
     const id = req.params.id
     const user = await User.find({ userId: id })
     const signals = await Signal.find({})
-    return signals.filter(signal => user[0].signalAccessLevel >= signal.accessLevel && (!signal.group || signal.group === user[0].group))
+    return signals
+    // return signals.filter(signal => user[0].signalAccessLevel >= signal.accessLevel && (!signal.group || signal.group === user[0].group))
   } catch (err) {
     throw boom.boomify(err)
   }
