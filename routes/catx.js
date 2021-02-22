@@ -11,6 +11,11 @@ const routes = [
     method: 'POST',
     url: '/catx',
     handler: catxController.addCatx
+  },
+  {
+    method: 'POST',
+    url: '/catx/check_addresses',
+    handler: catxController.checkAddresses
   }
 ]
 

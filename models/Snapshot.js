@@ -1,11 +1,15 @@
 const mongoose = require('mongoose')
 
 const snapshotSchema = new mongoose.Schema({
-  HolderAddress: {
+  address: {
     type: String
   },
-  Balance: {
+  balance: {
     type: String
+  },
+  maintained: {
+    type: Boolean,
+    default: true
   }
 })
 
