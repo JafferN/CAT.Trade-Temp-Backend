@@ -53,7 +53,7 @@ exports.addCatx = async (req, reply) => {
     existingCatx = await Catx.find({ address: catx.address })
     if (snapshot.length && !existingCatx.length) {
       catx.save()
-      axios.post('https://canary.discord.com/api/webhooks/234702449477156864/o8WPheKT09x-FlGs03NrAdAnRv3sWE9ffeTPDNuRfECQME2MDmeHmGg_B9-rfsMozr9n', {
+      axios.post('https://canary.discord.com/api/webhooks/813412983354687498/SjaXBXC2h3vtdkXbMBgKLpSHR6I0pFKl6NnWuCqMD8EzCjm4k0h7eb0NPqaNZZkNqyjc', {
         embeds: [
           {
             title: 'Opt-out',
