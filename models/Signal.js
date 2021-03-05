@@ -25,6 +25,10 @@ const signalSchema = new mongoose.Schema({
     type: String,
     default: null
   },
+  type: {
+    type: String,
+    default: null
+  },
   discordWebhookUrl: {
     type: String,
     default: null
