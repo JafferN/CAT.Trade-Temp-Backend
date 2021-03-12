@@ -38,6 +38,9 @@ exports.getSignals = async (req, reply) => {
 exports.addSignal = async (req, reply) => {
   try {
     const signal = new Signal(req.body)
+    if (signal.url) {
+      signal.url = encodeURI(signal.url)
+    }
     await sendSignalWs(signal)
     if (signal.discordWebhookUrl) {
       axios.post(signal.discordWebhookUrl, {
